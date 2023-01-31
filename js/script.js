@@ -99,8 +99,8 @@ window.addEventListener('DOMContentLoaded', () => {
 
     const openModalBtn = document.querySelectorAll('[data-modal]'),
           modal = document.querySelector('.modal'),
-          closeModalBtn = document.querySelector('[data-close]');
-        //   modalTimerId = setTimeout(openModal, 5000);            // КОММЕНТАРИЙ!
+          closeModalBtn = document.querySelector('[data-close]'),
+          modalTimerId = setTimeout(openModal, 5000);
 
     function openModal() {
         modal.classList.toggle('show');
