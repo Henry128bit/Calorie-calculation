@@ -99,8 +99,8 @@ window.addEventListener('DOMContentLoaded', () => {
 
     const openModalBtn = document.querySelectorAll('[data-modal]'),
           modal = document.querySelector('.modal'),
-          closeModalBtn = document.querySelector('[data-close]'),
-          modalTimerId = setTimeout(openModal, 5000);
+          closeModalBtn = document.querySelector('[data-close]');
+        //   modalTimerId = setTimeout(openModal, 5000);            // КОММЕНТАРИЙ!
 
     function openModal() {
         modal.classList.toggle('show');
@@ -139,4 +139,81 @@ window.addEventListener('DOMContentLoaded', () => {
     });
 
     window.addEventListener('scroll', showModalByScroll);
+
+    // Class
+    const ServerArr = [
+        {
+            src: 'img/tabs/vegy.jpg',
+            alt: 'vegy',
+            title: 'Меню "Фитнес"',
+            descr: `Меню "Фитнес" - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. 
+                    Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и 
+                    высоким качеством!`,
+            price: 9
+        },
+
+        {
+            src: 'img/tabs/elite.jpg',
+            alt: 'elite',
+            title: 'Меню “Премиум”',
+            descr: `В меню “Премиум” мы используем не только красивый дизайн упаковки, но и качественное 
+                    исполнение блюд. Красная рыба, морепродукты, фрукты - ресторанное меню без похода 
+                    в ресторан!`,
+            price: 15
+        },
+
+        {
+            src: 'img/tabs/post.jpg',
+            alt: 'post',
+            title: 'Меню "Постное"',
+            descr: `Меню “Постное” - это тщательный подбор ингредиентов: полное отсутствие продуктов животного 
+                    происхождения, молоко из миндаля, овса, кокоса или гречки, правильное количество белков за 
+                    счет тофу и импортных вегетарианских стейков.`,
+            price: 11
+        },
+    ];
+
+    class MenuCard {
+        constructor(src, alt, title, descr, price) {
+            this.src = src;
+            this.alt = alt;
+            this.title = title;
+            this.descr = descr;
+            this.price = price;
+            this.transfer = 27;
+            this.changeToUAH();
+        }
+
+        changeToUAH() {
+            this.price = this.price * this.transfer;
+        }
+
+        render() {
+            const container = document.querySelector('.menu_container');
+            const element = document.createElement('div');
+            element.innerHTML = `
+                <div class="menu__item">
+                    <img src=${this.src} alt=${this.alt}>
+                    <h3 class="menu__item-subtitle">${this.title}</h3>
+                    <div class="menu__item-descr">${this.descr}</div>
+                    <div class="menu__item-divider"></div>
+                    <div class="menu__item-price">
+                        <div class="menu__item-cost">Цена:</div>
+                        <div class="menu__item-total"><span>${this.price}</span> грн/день</div>
+                    </div>
+                </div>
+            `;
+            container.append(element);
+        }
+    }
+
+    ServerArr.forEach((item) => {
+        let src = item.src;
+        let alt = item.alt;
+        let title = item.title;
+        let descr = item.descr;
+        let price = item.price;
+
+        new MenuCard(src, alt, title, descr, price).render();
+    });
 });
