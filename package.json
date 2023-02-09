@@ -1,0 +1,22 @@
+{
+  "name": "js-project_3",
+  "version": "1.0.0",
+  "description": "Educational project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Henry128bit/JavaScript-practice-3.git"
+  },
+  "author": "Sergey Kamensky",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Henry128bit/JavaScript-practice-3/issues"
+  },
+  "homepage": "https://github.com/Henry128bit/JavaScript-practice-3#readme",
+  "devDependencies": {
+    "json-server": "^0.17.1"
+  }
+}
