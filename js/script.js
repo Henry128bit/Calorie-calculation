@@ -143,38 +143,6 @@ window.addEventListener('DOMContentLoaded', () => {
 
     // Class
 
-    const ServerArr = [
-        {
-            src: 'img/tabs/vegy.jpg',
-            alt: 'vegy',
-            title: 'Меню "Фитнес"',
-            descr: `Меню "Фитнес" - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. 
-                    Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и 
-                    высоким качеством!`,
-            price: 9
-        },
-
-        {
-            src: 'img/tabs/elite.jpg',
-            alt: 'elite',
-            title: 'Меню “Премиум”',
-            descr: `В меню “Премиум” мы используем не только красивый дизайн упаковки, но и качественное 
-                    исполнение блюд. Красная рыба, морепродукты, фрукты - ресторанное меню без похода 
-                    в ресторан!`,
-            price: 15
-        },
-
-        {
-            src: 'img/tabs/post.jpg',
-            alt: 'post',
-            title: 'Меню "Постное"',
-            descr: `Меню “Постное” - это тщательный подбор ингредиентов: полное отсутствие продуктов животного 
-                    происхождения, молоко из миндаля, овса, кокоса или гречки, правильное количество белков за 
-                    счет тофу и импортных вегетарианских стейков.`,
-            price: 11
-        },
-    ];
-
     class MenuCard {
         constructor(src, alt, title, descr, price) {
             this.src = src;
@@ -209,15 +177,29 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    ServerArr.forEach((item) => {
-        let src = item.src;
-        let alt = item.alt;
-        let title = item.title;
-        let descr = item.descr;
-        let price = item.price;
+    const getResource = async (url) => {
+        const res = await fetch(url);
 
-        new MenuCard(src, alt, title, descr, price).render();
-    });
+        if (!res.ok) {
+            throw new Error(`Could not fetch ${url} status: ${res.status}`);
+        }
+
+        return await res.json();
+    };
+
+    // getResource('http://localhost:3000/menu')
+        // .then((data) => {
+        //     data.forEach(({img, altimg, title, descr, price}) => {
+        //         new MenuCard(img, altimg, title, descr, price, '.menu .container').render();
+        //     });
+        // });
+
+    axios.get('http://localhost:3000/menu')
+        .then((data) => {
+            data.data.forEach(({img, altimg, title, descr, price}) => {
+                new MenuCard(img, altimg, title, descr, price, '.menu .container').render();
+            });
+        });
 
     //Forms
 
@@ -229,10 +211,22 @@ window.addEventListener('DOMContentLoaded', () => {
     };
 
     forms.forEach(item => {
-        postData(item);
+        bindPostData(item);
     });
 
-    function postData(form) {
+    const postData = async (url, data) => {
+        const res = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: data
+        });
+
+        return await res.json();
+    };
+
+    function bindPostData(form) {
         form.addEventListener('submit', (e) => {
             e.preventDefault();
 
@@ -245,31 +239,20 @@ window.addEventListener('DOMContentLoaded', () => {
             form.insertAdjacentElement('afterend', statusMessage);
             
             const formData = new FormData(form);
-            const object = {};
+            const json = JSON.stringify(Object.fromEntries(formData.entries()));
 
-            formData.forEach(function(value, key) {
-                object[key] = value;
-            });
-
-            fetch('server.php', {
-                method: 'POST',
-                headers: {
-                    'Content-type': 'application/json'
-                },
-                body: JSON.stringify(object)
-            })
-            .then(data => data.text())
-            .then(data => {
-                console.log(data);
-                showThanksModal(message.success);
-                statusMessage.remove();
-            })
-            .catch(() => {
-                showThanksModal(message.failure);
-            })
-            .finally(() => {
-                form.reset();
-            });
+            postData('http://localhost:3000/requests', json)
+                .then(data => {
+                    console.log(data);
+                    showThanksModal(message.success);
+                    statusMessage.remove();
+                })
+                .catch(() => {
+                    showThanksModal(message.failure);
+                })
+                .finally(() => {
+                    form.reset();
+                });
         });
     }
 
@@ -300,4 +283,100 @@ window.addEventListener('DOMContentLoaded', () => {
     fetch('http://localhost:3000/menu')
         .then(data => data.json())
         .then(res => console.log(res));
+
+    // Slides
+
+    const slider = document.querySelector('.offer__slider'),
+          slides = document.querySelectorAll('.offer__slide'),
+          prev = document.querySelector('.offer__slider-prev'),
+          next = document.querySelector('.offer__slider-next'),
+          total = document.querySelector('#total'),
+          current = document.querySelector('#current');
+    
+    let slideIndex = 1;
+
+    showSlides(slideIndex);
+
+    if (slides.length < 10) {
+        total.textContent =`0${slides.length}`;
+    } else {
+        total.textContent = slides.length;
+    }
+
+    function showSlides(n) {
+        if (n > slides.length) {
+            slideIndex = 1;
+        }
+
+        if (n < 1) {
+            slideIndex = slides.length;
+        }
+
+        slides.forEach(item => item.style.display = 'none');
+
+        slides[slideIndex - 1].style.display = 'block';
+
+        if (slides.length < 10) {
+            current.textContent =`0${slideIndex}`;
+        } else {
+            current.textContent = slideIndex;
+        }
+    }
+
+    function plusSlides(n) {
+        showSlides(slideIndex +=n);
+    }
+
+    // Dots
+
+    slider.style.position = 'relative';
+
+    const indicators = document.createElement('ol');
+    indicators.classList.add('slides-indicators');
+    slider.append(indicators);
+
+    let dots = [];
+
+    for (let i = 0; i < slides.length; i++) {
+        const dot = document.createElement('li');
+        dot.setAttribute('data-slide-to', i + 1);
+        dot.classList.add('dot');
+
+        if (i == 0) {
+            dot.style.opacity = 1;
+        }
+
+        indicators.append(dot);
+        dots.push(dot);
+    }
+
+    function activDot() {
+        dots.forEach(dot => dot.style.opacity = '.5');
+        dots[slideIndex - 1].style.opacity = 1;
+    }
+
+    prev.addEventListener('click', () => {
+        plusSlides(-1);
+        activDot();
+    });
+    next.addEventListener('click', () => {
+        plusSlides(1);
+        activDot();
+    });
+
+    dots.forEach(dot => {
+        dot.addEventListener('click', function(e) {
+            slideIndex = 0;
+            plusSlides.bind(this, Number(e.target.getAttribute('data-slide-to')))();
+            activDot();
+        });
+
+
+        // Странное поведение... Почему возвращает строку?
+        // dot.addEventListener('click', function(e) {
+        //     debugger
+        //     slideIndex = 0;
+        //     plusSlides.bind(this, e.target.getAttribute('data-slide-to'))();
+        // });
+    });
 });
