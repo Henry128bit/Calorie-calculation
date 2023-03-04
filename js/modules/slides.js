@@ -1,11 +1,11 @@
-function slides() {
+function slides({container, slide, prevtArrow, nextArrow, totalCounter, currentCounter}) {
     // Slides
-    const slider = document.querySelector('.offer__slider'),
-          slides = document.querySelectorAll('.offer__slide'),
-          prev = document.querySelector('.offer__slider-prev'),
-          next = document.querySelector('.offer__slider-next'),
-          total = document.querySelector('#total'),
-          current = document.querySelector('#current');
+    const slider = document.querySelector(container),
+          slides = document.querySelectorAll(slide),
+          prev = document.querySelector(prevtArrow),
+          next = document.querySelector(nextArrow),
+          total = document.querySelector(totalCounter),
+          current = document.querySelector(currentCounter);
     
     let slideIndex = 1;
 
@@ -83,15 +83,7 @@ function slides() {
             plusSlides.bind(this, Number(e.target.getAttribute('data-slide-to')))();
             activDot();
         });
-
-
-        // Странное поведение... Почему возвращает строку?
-        // dot.addEventListener('click', function(e) {
-        //     debugger
-        //     slideIndex = 0;
-        //     plusSlides.bind(this, e.target.getAttribute('data-slide-to'))();
-        // });
     });
 }
 
-module.exports = slides;
+export default slides;
