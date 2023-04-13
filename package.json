@@ -16,7 +16,7 @@
   "bugs": {
     "url": "https://github.com/Henry128bit/JavaScript-practice-3/issues"
   },
-  "homepage": "https://github.com/Henry128bit/JavaScript-practice-3#readme",
+  "homepage": "https://github.com/Henry128bit/JavaScript-project-3",
   "browserslist": [
     "> 1%"
   ],
@@ -25,7 +25,6 @@
     "@babel/core": "^7.21.0",
     "@babel/preset-env": "^7.20.2",
     "babel-loader": "^9.1.2",
-    "copy-webpack-plugin": "^11.0.0",
     "webpack": "^5.75.0",
     "webpack-cli": "^5.0.1"
   },
