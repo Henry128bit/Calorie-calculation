@@ -1,4 +1,28 @@
-import {getResource} from '../services/services';
+// import {getResource} from '../services/services';
+
+const dataBase = [ // чтобы работало без сервера
+    {
+        img: "img/tabs/vegy.jpg",
+        altimg: "vegy",
+        title: "Меню 'Фитнес'",
+        descr: "Меню 'Фитнес' - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и высоким качеством!",
+        price: 330
+    },
+    {
+        img: "img/tabs/post.jpg",
+        altimg: "post",
+        title: "Меню 'Постное'",
+        descr: "Меню 'Постное' - это тщательный подбор ингредиентов: полное отсутствие продуктов животного происхождения, молоко из миндаля, овса, кокоса или гречки, правильное количество белков за счет тофу и импортных вегетарианских стейков.",
+        price: 270
+    },
+    {
+        img: "img/tabs/elite.jpg",
+        altimg: "elite",
+        title: "Меню 'Премиум'",
+        descr: "В меню 'Премиум' мы используем не только красивый дизайн упаковки, но и качественное исполнение блюд. Красная рыба, морепродукты, фрукты - ресторанное меню без похода в ресторан!",
+        price: 479
+    }
+];
 
 function cards() {
     // Class
@@ -36,12 +60,16 @@ function cards() {
         }
     }
 
-    getResource('/json/db.json')
-        .then((data) => {
-            data.menu.forEach(({img, altimg, title, descr, price}) => {
-                new MenuCard(img, altimg, title, descr, price, '.menu .container').render();
-            });
-        });
+    // getResource('/json/db.json')
+    //     .then((data) => {
+    //         data.menu.forEach(({img, altimg, title, descr, price}) => {
+    //             new MenuCard(img, altimg, title, descr, price, '.menu .container').render();
+    //         });
+    // });
+
+    dataBase.forEach(({img, altimg, title, descr, price}) => {
+        new MenuCard(img, altimg, title, descr, price, '.menu .container').render();
+    });
 }
 
 export default cards;

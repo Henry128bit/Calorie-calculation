@@ -109,8 +109,29 @@ function calc() {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _services_services__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../services/services */ "./js/services/services.js");
+// import {getResource} from '../services/services';
 
+const dataBase = [
+// чтобы работало без сервера
+{
+  img: "img/tabs/vegy.jpg",
+  altimg: "vegy",
+  title: "Меню 'Фитнес'",
+  descr: "Меню 'Фитнес' - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и высоким качеством!",
+  price: 330
+}, {
+  img: "img/tabs/post.jpg",
+  altimg: "post",
+  title: "Меню 'Постное'",
+  descr: "Меню 'Постное' - это тщательный подбор ингредиентов: полное отсутствие продуктов животного происхождения, молоко из миндаля, овса, кокоса или гречки, правильное количество белков за счет тофу и импортных вегетарианских стейков.",
+  price: 270
+}, {
+  img: "img/tabs/elite.jpg",
+  altimg: "elite",
+  title: "Меню 'Премиум'",
+  descr: "В меню 'Премиум' мы используем не только красивый дизайн упаковки, но и качественное исполнение блюд. Красная рыба, морепродукты, фрукты - ресторанное меню без похода в ресторан!",
+  price: 479
+}];
 function cards() {
   // Class
   class MenuCard {
@@ -144,17 +165,23 @@ function cards() {
       container.append(element);
     }
   }
-  (0,_services_services__WEBPACK_IMPORTED_MODULE_0__.getResource)('/json/db.json').then(data => {
-    data.menu.forEach(_ref => {
-      let {
-        img,
-        altimg,
-        title,
-        descr,
-        price
-      } = _ref;
-      new MenuCard(img, altimg, title, descr, price, '.menu .container').render();
-    });
+
+  // getResource('/json/db.json')
+  //     .then((data) => {
+  //         data.menu.forEach(({img, altimg, title, descr, price}) => {
+  //             new MenuCard(img, altimg, title, descr, price, '.menu .container').render();
+  //         });
+  // });
+
+  dataBase.forEach(_ref => {
+    let {
+      img,
+      altimg,
+      title,
+      descr,
+      price
+    } = _ref;
+    new MenuCard(img, altimg, title, descr, price, '.menu .container').render();
   });
 }
 /* harmony default export */ __webpack_exports__["default"] = (cards);
