@@ -144,7 +144,7 @@ function cards() {
       container.append(element);
     }
   }
-  (0,_services_services__WEBPACK_IMPORTED_MODULE_0__.getResource)('../db.json').then(data => {
+  (0,_services_services__WEBPACK_IMPORTED_MODULE_0__.getResource)('/db.json').then(data => {
     data.menu.forEach(_ref => {
       let {
         img,

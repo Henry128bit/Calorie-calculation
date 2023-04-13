@@ -33,9 +33,7 @@ module.exports = {
     },
     plugins: [
       new CopyWebpackPlugin({
-        patterns: [
-          { from: 'db.json', to: 'db.json' }
-        ]
+        patterns: [{ from: 'public' }]
       })
     ]
 };
