@@ -9,12 +9,12 @@ function cards() {
             this.title = title;
             this.descr = descr;
             this.price = price;
-            this.transfer = 27;
-            this.changeToUAH();
+            this.transfer = 32;
+            this.changeToGEL();
         }
 
-        changeToUAH() {
-            this.price = this.price * this.transfer;
+        changeToGEL() {
+            this.price = this.price / this.transfer;
         }
 
         render() {
@@ -28,7 +28,7 @@ function cards() {
                     <div class="menu__item-divider"></div>
                     <div class="menu__item-price">
                         <div class="menu__item-cost">Цена:</div>
-                        <div class="menu__item-total"><span>${this.price}</span> грн/день</div>
+                        <div class="menu__item-total"><span>${Math.round(this.price)}</span> лари/день</div>
                     </div>
                 </div>
             `;
@@ -36,9 +36,9 @@ function cards() {
         }
     }
 
-    getResource('http://localhost:3000/menu')
+    getResource('/db.json')
         .then((data) => {
-            data.forEach(({img, altimg, title, descr, price}) => {
+            data.menu.forEach(({img, altimg, title, descr, price}) => {
                 new MenuCard(img, altimg, title, descr, price, '.menu .container').render();
             });
         });

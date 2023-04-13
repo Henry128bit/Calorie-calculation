@@ -120,11 +120,11 @@ function cards() {
       this.title = title;
       this.descr = descr;
       this.price = price;
-      this.transfer = 27;
-      this.changeToUAH();
+      this.transfer = 32;
+      this.changeToGEL();
     }
-    changeToUAH() {
-      this.price = this.price * this.transfer;
+    changeToGEL() {
+      this.price = this.price / this.transfer;
     }
     render() {
       const container = document.querySelector('.menu_container');
@@ -137,15 +137,15 @@ function cards() {
                     <div class="menu__item-divider"></div>
                     <div class="menu__item-price">
                         <div class="menu__item-cost">Цена:</div>
-                        <div class="menu__item-total"><span>${this.price}</span> грн/день</div>
+                        <div class="menu__item-total"><span>${Math.round(this.price)}</span> лари/день</div>
                     </div>
                 </div>
             `;
       container.append(element);
     }
   }
-  (0,_services_services__WEBPACK_IMPORTED_MODULE_0__.getResource)('http://localhost:3000/menu').then(data => {
-    data.forEach(_ref => {
+  (0,_services_services__WEBPACK_IMPORTED_MODULE_0__.getResource)('/db.json').then(data => {
+    data.menu.forEach(_ref => {
       let {
         img,
         altimg,
@@ -179,7 +179,8 @@ function forms(formSelector, modalTimerId) {
   const message = {
     loading: 'img/form/spinner.svg',
     success: 'Спасибо! Скоро мы с вами свяжемся',
-    failure: 'Что-то пошло не так...'
+    failure: 'Что-то пошло не так...',
+    preview: 'Сейчас сайт не подключен к серверу =)'
   };
   forms.forEach(item => {
     bindPostData(item);
@@ -201,7 +202,8 @@ function forms(formSelector, modalTimerId) {
         showThanksModal(message.success);
         statusMessage.remove();
       }).catch(() => {
-        showThanksModal(message.failure);
+        showThanksModal(message.preview);
+        statusMessage.style.display = 'none';
       }).finally(() => {
         form.reset();
       });
@@ -227,8 +229,12 @@ function forms(formSelector, modalTimerId) {
       (0,_modal__WEBPACK_IMPORTED_MODULE_0__.closeModal)('.modal');
     }, 4000);
   }
-  fetch('http://localhost:3000/menu').then(data => data.json()).then(res => console.log(res));
+
+  // fetch('http://localhost:3000/menu')
+  //     .then(data => data.json())
+  //     .then(res => console.log(res));
 }
+
 /* harmony default export */ __webpack_exports__["default"] = (forms);
 
 /***/ }),

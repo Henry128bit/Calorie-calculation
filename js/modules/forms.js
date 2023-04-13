@@ -7,7 +7,8 @@ function forms(formSelector, modalTimerId) {
     const message = {
         loading: 'img/form/spinner.svg',
         success: 'Спасибо! Скоро мы с вами свяжемся',
-        failure: 'Что-то пошло не так...'
+        failure: 'Что-то пошло не так...',
+        preview: 'Сейчас сайт не подключен к серверу =)'
     };
 
     forms.forEach(item => {
@@ -36,7 +37,8 @@ function forms(formSelector, modalTimerId) {
                     statusMessage.remove();
                 })
                 .catch(() => {
-                    showThanksModal(message.failure);
+                    showThanksModal(message.preview);
+                    statusMessage.style.display = 'none';
                 })
                 .finally(() => {
                     form.reset();
@@ -68,9 +70,9 @@ function forms(formSelector, modalTimerId) {
         }, 4000);
     }
 
-    fetch('http://localhost:3000/menu')
-        .then(data => data.json())
-        .then(res => console.log(res));
+    // fetch('http://localhost:3000/menu')
+    //     .then(data => data.json())
+    //     .then(res => console.log(res));
 }
 
 export default forms;
