@@ -1,4 +1,4 @@
-[SmartEats](https://henry128bit.github.io/Calorie-calculation/)
+[SmartEats](https://henry128bit.github.io/Smart-eats/)
 =====================
 Учебный проект
 ---
